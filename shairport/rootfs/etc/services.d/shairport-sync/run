@@ -42,6 +42,19 @@ fi
 bashio::log.info "Generating Shairport Sync configuration from template..."
 tempio -conf /data/options.json -template "${CONFIG_TEMPLATE}" -out "${CONFIG_RUNTIME}"
 
+bashio::log.info "Waiting for Avahi..."
+for _ in $(seq 1 50); do
+  if [[ -f /run/avahi-daemon/pid ]] && pgrep -x avahi-daemon > /dev/null 2>&1; then
+    break
+  fi
+  sleep 0.1
+done
+
+if [[ ! -f /run/avahi-daemon/pid ]] || ! pgrep -x avahi-daemon > /dev/null 2>&1; then
+  bashio::log.error "Avahi is not running; mDNS advertisement requires D-Bus and avahi-daemon"
+  exit 1
+fi
+
 bashio::log.info "Waiting for NQPTP..."
 for _ in $(seq 1 50); do
   if pgrep -x nqptp > /dev/null 2>&1; then

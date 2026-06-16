@@ -75,4 +75,4 @@ COPY --from=builder /usr/local/bin/shairport-sync /usr/local/bin/shairport-sync
 COPY --from=builder /usr/local/bin/nqptp /usr/local/bin/nqptp
 
 COPY rootfs /
-RUN find /etc/services.d -type f -name run -exec chmod +x {} +
+RUN find /etc/services.d /etc/cont-init.d -type f \( -name run -o -name '*.sh' \) -exec chmod +x {} +
