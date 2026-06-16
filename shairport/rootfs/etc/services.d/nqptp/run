@@ -1,0 +1,8 @@
+#!/usr/bin/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Start NQPTP, required for AirPlay 2 timing on ports 319/320.
+# ==============================================================================
+
+bashio::log.info "Starting NQPTP (AirPlay 2 timing)..."
+exec nqptp
