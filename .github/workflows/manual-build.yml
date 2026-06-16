@@ -15,6 +15,8 @@ on:
 env:
   ARCHITECTURES: '["amd64", "aarch64"]'
   IMAGE_NAME: ha-shairport
+  BASE_IMAGE_VERSION: "3.20"
+  REGISTRY_PREFIX: ghcr.io/${{ github.repository_owner }}
   CUSTOM_TAG: ${{ github.event.inputs.tag_name }}
 
 permissions:
@@ -39,6 +41,7 @@ jobs:
         with:
           architectures: ${{ env.ARCHITECTURES }}
           image-name: ${{ env.IMAGE_NAME }}
+          registry-prefix: ${{ env.REGISTRY_PREFIX }}
 
       - name: Lowercase matrix image names
         id: lowercase_matrix
@@ -74,12 +77,15 @@ jobs:
           image: ${{ matrix.image }}
           image-tags: |
             ${{ env.CUSTOM_TAG }}
+          build-args: |
+            BUILD_FROM=ghcr.io/home-assistant/${{ matrix.arch }}-base:${{ env.BASE_IMAGE_VERSION }}
           push: "true"
           version: ${{ env.CUSTOM_TAG }}
 
   manifest:
     name: Publish multi-arch manifest
     needs: [init, build]
+    if: ${{ !cancelled() && needs.build.result == 'success' }}
     runs-on: ubuntu-latest
     permissions:
       id-token: write # Write needed for Cosign signing (issue OIDC token for signing)
@@ -90,7 +96,7 @@ jobs:
         with:
           architectures: ${{ env.ARCHITECTURES }}
           container-registry-password: ${{ secrets.GITHUB_TOKEN }}
-          registry-prefix: ghcr.io/hass-shairport
+          registry-prefix: ${{ env.REGISTRY_PREFIX }}
           image-name: ${{ env.IMAGE_NAME }}
           image-tags: |
             ${{ env.CUSTOM_TAG }}

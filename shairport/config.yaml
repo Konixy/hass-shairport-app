@@ -40,4 +40,4 @@ schema:
   drift_tolerance_seconds: float(min=0.0001, max=0.01)
   ignore_volume_control: bool
   log_verbosity: int(min=0, max=3)
-image: ghcr.io/hass-shairport/{arch}-ha-shairport
+image: ghcr.io/konixy/{arch}-ha-shairport
