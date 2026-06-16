@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
+ARG BUILD_FROM
 FROM mikebrady/shairport-sync:5.0.4 AS shairport
 
-ARG BUILD_FROM
 FROM ${BUILD_FROM}
 
 # Runtime libraries required by the Shairport Sync binary
