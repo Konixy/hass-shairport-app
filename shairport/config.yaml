@@ -1,6 +1,6 @@
 name: Shairport Sync
 description: AirPlay 2 receiver for Home Assistant OS, tuned for low-latency and stable ALSA output
-url: https://github.com/anatole/hass-shairport-app/tree/main/shairport
+url: https://github.com/Konixy/hass-shairport-app/tree/main/shairport
 version: "1.0.0"
 slug: shairport
 arch:
