@@ -6,7 +6,7 @@ on:
 
 env:
   ARCHITECTURES: '["amd64", "aarch64"]'
-  IMAGE_NAME: ha-airplay2
+  IMAGE_NAME: ha-shairport
   RELEASE_TAG: ${{ github.event.release.tag_name }}
 
 permissions:
@@ -59,8 +59,8 @@ jobs:
       - name: Build image
         uses: home-assistant/builder/actions/build-image@2026.03.2
         with:
-          file: Airplay2/Dockerfile
-          context: Airplay2/
+          file: shairport/Dockerfile
+          context: shairport/
           arch: ${{ matrix.arch }}
           container-registry-password: ${{ secrets.GITHUB_TOKEN }}
           image: ${{ matrix.image }}
@@ -83,7 +83,7 @@ jobs:
         with:
           architectures: ${{ env.ARCHITECTURES }}
           container-registry-password: ${{ secrets.GITHUB_TOKEN }}
-          registry-prefix: ghcr.io/johannvr
+          registry-prefix: ghcr.io/hass-shairport
           image-name: ${{ env.IMAGE_NAME }}
           image-tags: |
             ${{ env.RELEASE_TAG }}

@@ -1,0 +1,57 @@
+configuration:
+  name:
+    name: AirPlay name
+    description: Name shown in the AirPlay device list on Apple devices.
+  output_device:
+    name: ALSA output device
+    description: >-
+      ALSA device for audio output, e.g. "default", "hw:0", or "hw:1,0".
+      Run `aplay -L` on the host to list devices.
+  mixer_control_name:
+    name: Hardware mixer name
+    description: >-
+      Optional ALSA mixer for hardware volume control, e.g. "PCM" or "Digital".
+      Leave empty to use software volume only.
+  output_rate:
+    name: Output sample rate
+    description: Fixed output sample rate in Hz. 44100 works on most DACs.
+  output_format:
+    name: Output sample format
+    description: >-
+      ALSA sample format: S16_LE (most compatible), S24_LE, or S32_LE.
+  buffer_length_seconds:
+    name: Backend buffer length
+    description: >-
+      Audio backend buffer in seconds (0.05–1.0). Lower values reduce latency;
+      too low causes dropouts on slow hardware.
+  period_size:
+    name: ALSA period size
+    description: ALSA period size (64–4096). Smaller values reduce latency.
+  buffer_size:
+    name: ALSA buffer size
+    description: ALSA buffer size (512–16384). Must be larger than period size.
+  disable_standby_mode:
+    name: Disable DAC standby
+    description: >-
+      Prevent the DAC from entering standby: "auto" while playing, "always",
+      or "never". Use "auto" to avoid pop/click noise.
+  use_precision_timing:
+    name: Precision timing
+    description: >-
+      Enable ALSA precision timing. Can cause silent playback on some DACs;
+      leave disabled unless required.
+  interpolation:
+    name: Interpolation
+    description: >-
+      Clock sync method: "basic" (most reliable on Pi), "soxr" (needs fast CPU),
+      or "auto".
+  drift_tolerance_seconds:
+    name: Drift tolerance
+    description: >-
+      Allowed clock drift in seconds before correction (0.0001–0.01).
+  ignore_volume_control:
+    name: Ignore volume control
+    description: Force 100% output volume regardless of AirPlay volume slider.
+  log_verbosity:
+    name: Log verbosity
+    description: Debug log level 0–3. Increase when troubleshooting audio issues.

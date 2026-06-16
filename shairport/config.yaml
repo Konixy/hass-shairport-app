@@ -1,0 +1,43 @@
+name: Shairport Sync
+description: AirPlay 2 receiver for Home Assistant OS, tuned for low-latency and stable ALSA output
+url: https://github.com/anatole/hass-shairport-app/tree/main/shairport
+version: "1.0.0"
+slug: shairport
+arch:
+  - aarch64
+  - amd64
+  - armv7
+boot: auto
+host_network: true
+audio: true
+options:
+  name: "Home Assistant"
+  output_device: "default"
+  mixer_control_name: null
+  output_rate: 44100
+  output_format: "S16_LE"
+  buffer_length_seconds: 0.15
+  period_size: 256
+  buffer_size: 2048
+  disable_standby_mode: "auto"
+  use_precision_timing: false
+  interpolation: "basic"
+  drift_tolerance_seconds: 0.001
+  ignore_volume_control: false
+  log_verbosity: 0
+schema:
+  name: str
+  output_device: str
+  mixer_control_name: str?
+  output_rate: int
+  output_format: list(S16_LE|S24_LE|S32_LE)
+  buffer_length_seconds: float(min=0.05, max=1.0)
+  period_size: int(min=64, max=4096)
+  buffer_size: int(min=512, max=16384)
+  disable_standby_mode: list(always|auto|never)
+  use_precision_timing: bool
+  interpolation: list(basic|soxr|auto)
+  drift_tolerance_seconds: float(min=0.0001, max=0.01)
+  ignore_volume_control: bool
+  log_verbosity: int(min=0, max=3)
+image: ghcr.io/hass-shairport/{arch}-ha-shairport

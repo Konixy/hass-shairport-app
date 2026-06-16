@@ -1,11 +1,15 @@
-# JohannVR's Home Assistant Add-ons
+# Shairport Sync Home Assistant Add-ons
 
-## Addons
+Home Assistant add-ons for AirPlay audio streaming.
 
-* [Airplay2](https://github.com/JohannVR/JohannVRs-Home-Assistant-Addons/tree/main/Airplay2) - use Home Assistant Host as Airplay 2 receiver.
+## Add-ons
+
+- [shairport](shairport/) — AirPlay 2 receiver powered by Shairport Sync, tuned for low latency and stable ALSA output on Home Assistant OS.
 
 ## Installation
 
-To install addons offered in this repository, you must first add its repository URL to your Home Assistant instance. To do so, add the repository URL below to the Home Assistant add-on store:
+Add this repository URL in the Home Assistant add-on store (**Settings → Add-ons → Add-on Store → ⋮ → Repositories**):
 
-`https://github.com/JohannVR/JohannVRs-Home-Assistant-Addons`
+`https://github.com/Konixy/hass-shairport-app`
+
+Then install **Shairport Sync** from the add-on store.
