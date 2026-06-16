@@ -19,6 +19,7 @@ RUN apk add --no-cache \
         libconfig-dev \
         libgcrypt-dev \
         libplist-dev \
+        libplist-util \
         libsndfile-dev \
         libsodium-dev \
         libtool \
