@@ -1,43 +1,87 @@
-name: Shairport Sync
-description: AirPlay 2 receiver for Home Assistant OS, tuned for low-latency and stable ALSA output
+name: "Shairport Sync for Home Assistant"
+description: "Adds Airplay 2 capabilities to Home Assistant"
 url: https://github.com/Konixy/hass-shairport-app/tree/main/shairport
-version: "1.0.4"
-slug: shairport
+version: "1.0.5"
+slug: "shairport"
+init: false
 arch:
   - aarch64
   - amd64
   - armv7
-init: false
-boot: auto
+boot: "auto"
 host_network: true
 audio: true
 options:
-  name: "Home Assistant"
+  airplay_name: "Hass.io"
+  interpolation: "auto"
+  output_backend: "alsa"
+  offset: "0.0"
+  drift_tolerance_in_seconds: "0.002"
+  resync_threshold_in_seconds: "0.050"
+  default_airplay_volume: "-24.0"
+  volume_max_db: "0.0"
+  volume_control_combined_hardware_priority: "no"
+  ignore_volume_control: "no"
   output_device: "default"
-  output_rate: 44100
-  output_format: "S16_LE"
-  buffer_length_seconds: 0.15
+  mixer_control_name: "PCM"
+  mixer_control_index: 0
+  output_rate: "auto"
+  output_format: "auto"
+  output_channels: "auto"
+  use_precision_timing: "auto"
+  disable_standby_mode: "never"
+  audio_backend_buffer_desired_length_in_seconds: "0.15"
   period_size: 256
   buffer_size: 2048
-  disable_standby_mode: "auto"
-  use_precision_timing: false
-  interpolation: "basic"
-  drift_tolerance_seconds: 0.001
-  ignore_volume_control: false
+  enabled: "no"
+  mqtt_host: "core-mosquitto"
+  mqtt_port: 1883
+  mqtt_username: "user"
+  mqtt_password: "password"
+  mqtt_topic: "airplay2"
+  mqtt_publish_parsed: "yes"
+  mqtt_publish_cover: "no"
+  mqtt_publish_retain: "no"
+  mqtt_enable_remote: "no"
+  session_timeout: "60"
   log_verbosity: 0
 schema:
-  name: str
+  airplay_name: str
+  interpolation: str
+  output_backend: str
+  offset: str
+  drift_tolerance_in_seconds: str
+  resync_threshold_in_seconds: str
+  default_airplay_volume: str
+  volume_max_db: str
+  volume_control_combined_hardware_priority: str
+  ignore_volume_control: str
   output_device: str
-  mixer_control_name: str?
-  output_rate: int
-  output_format: list(S16_LE|S24_LE|S32_LE)
-  buffer_length_seconds: float(0.05,1.0)
-  period_size: int(64,4096)
-  buffer_size: int(512,16384)
-  disable_standby_mode: list(always|auto|never)
-  use_precision_timing: bool
-  interpolation: list(basic|soxr|auto)
-  drift_tolerance_seconds: float(0.0001,0.01)
-  ignore_volume_control: bool
-  log_verbosity: int(0,3)
+  mixer_control_name: str
+  mixer_control_index: int
+  output_rate: str
+  output_format: str
+  output_channels: str
+  use_precision_timing: str
+  disable_standby_mode: str
+  audio_backend_buffer_desired_length_in_seconds: str
+  period_size: int
+  buffer_size: int
+  enabled: str
+  mqtt_host: str
+  mqtt_port: int
+  mqtt_username: str
+  mqtt_password: password
+  mqtt_topic: str
+  mqtt_publish_parsed: str
+  mqtt_publish_cover: str
+  mqtt_publish_retain: str
+  mqtt_enable_remote: str
+  session_timeout: str
+  log_verbosity: int
+  pulseaudio_application_name: str?
+  playback_mode: str?
+  volume_control_profile: str?
+  pulseaudio_server: str?
+  pulseaudio_sink: str?
 image: ghcr.io/konixy/{arch}-ha-shairport

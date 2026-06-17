@@ -1,7 +1,58 @@
 configuration:
-  name:
+  airplay_name:
     name: AirPlay name
-    description: Name shown in the AirPlay device list on Apple devices.
+    description: >-
+      Name shown in the AirPlay device list on Apple devices (max 50 characters).
+  interpolation:
+    name: Interpolation
+    description: >-
+      Clock sync method. Use "auto" (recommended), "vernier" on low-power devices
+      such as Raspberry Pi, "soxr" on fast CPUs, or "basic" (not recommended).
+  output_backend:
+    name: Output backend
+    description: >-
+      Audio output backend: "alsa" for direct hardware access (recommended),
+      "pulseaudio" or "pa" for PulseAudio, or "pipewire" for PipeWire.
+  offset:
+    name: Playback offset
+    description: >-
+      Fixed latency adjustment in seconds, added to the player request.
+      Use negative values to compensate for output device delay (e.g. "-0.1" for 100 ms).
+  drift_tolerance_in_seconds:
+    name: Drift tolerance
+    description: >-
+      Allowed clock drift in seconds before correction (default "0.002").
+  resync_threshold_in_seconds:
+    name: Resync threshold
+    description: >-
+      Sync error in seconds that triggers a resync (default "0.050"). Set to "0" to disable.
+  default_airplay_volume:
+    name: Default AirPlay volume
+    description: >-
+      Suggested volume after a reset or after a very loud session (default "-24.0").
+      AirPlay volume ranges from 0.0 (loudest) to -30.0 (quietest).
+  volume_max_db:
+    name: Maximum volume
+    description: >-
+      Maximum output volume in dB; must include a decimal point (e.g. "0.0" or "-10.0").
+      Leave at "0.0" to use the mixer maximum.
+  volume_control_combined_hardware_priority:
+    name: Prioritize hardware volume control
+    description: >-
+      When combining hardware and software attenuation, set to "yes" to use the
+      hardware mixer first, then the software mixer.
+  ignore_volume_control:
+    name: Ignore volume control
+    description: >-
+      Set to "yes" to keep output at 100% regardless of the AirPlay source volume slider.
+  playback_mode:
+    name: Playback mode
+    description: >-
+      Audio channel layout: "stereo", "mono", "reverse stereo", "both left", or "both right".
+  volume_control_profile:
+    name: Volume control profile
+    description: >-
+      How AirPlay volume maps to mixer volume: "standard", "flat", or "dasl_tapered".
   output_device:
     name: ALSA output device
     description: >-
@@ -10,48 +61,108 @@ configuration:
   mixer_control_name:
     name: Hardware mixer name
     description: >-
-      Optional ALSA mixer for hardware volume control, e.g. "PCM" or "Digital".
-      Leave empty to use software volume only.
+      ALSA mixer for hardware volume control, e.g. "PCM" or "Digital".
+      Leave empty for software volume only.
+  mixer_control_index:
+    name: Mixer control index
+    description: >-
+      Index of the mixer control (default 0). Check with `ha audio info` if unsure.
   output_rate:
     name: Output sample rate
-    description: Fixed output sample rate in Hz. 44100 works on most DACs.
+    description: >-
+      Sample rate: "auto" (recommended), a single rate like "44100" or "48000",
+      or a list like "(44100, 48000)".
   output_format:
     name: Output sample format
     description: >-
-      ALSA sample format: S16_LE (most compatible), S24_LE, or S32_LE.
-  buffer_length_seconds:
-    name: Backend buffer length
+      Sample format: "auto" (recommended), or e.g. "S16_LE", "S24_LE", "S32_LE".
+      The device must support the chosen format.
+  output_channels:
+    name: Output channels
     description: >-
-      Audio backend buffer in seconds (0.05–1.0). Lower values reduce latency;
-      too low causes dropouts on slow hardware.
-  period_size:
-    name: ALSA period size
-    description: ALSA period size (64–4096). Smaller values reduce latency.
-  buffer_size:
-    name: ALSA buffer size
-    description: ALSA buffer size (512–16384). Must be larger than period size.
+      Channel count: "auto" (recommended), a number like "2", or a list like "(2, 6)".
+  use_precision_timing:
+    name: Precision timing
+    description: >-
+      ALSA timing mode: "auto", "yes", or "no". Can cause silent playback on some
+      DACs — leave on "auto" unless troubleshooting sync issues.
   disable_standby_mode:
     name: Disable DAC standby
     description: >-
       Prevent the DAC from entering standby: "auto" while playing, "always",
-      or "never". Use "auto" to avoid pop/click noise.
-  use_precision_timing:
-    name: Precision timing
+      or "never". Use "auto" to avoid pop/click noise between tracks.
+  audio_backend_buffer_desired_length_in_seconds:
+    name: Backend buffer length
     description: >-
-      Enable ALSA precision timing. Can cause silent playback on some DACs;
-      leave disabled unless required.
-  interpolation:
-    name: Interpolation
+      Audio backend buffer in seconds (default "0.15"). Lower values reduce
+      latency; too low causes dropouts on slow hardware.
+  period_size:
+    name: ALSA period size
     description: >-
-      Clock sync method: "basic" (most reliable on Pi), "soxr" (needs fast CPU),
-      or "auto".
-  drift_tolerance_seconds:
-    name: Drift tolerance
+      ALSA period size (default 256). Smaller values reduce latency but increase CPU load.
+  buffer_size:
+    name: ALSA buffer size
     description: >-
-      Allowed clock drift in seconds before correction (0.0001–0.01).
-  ignore_volume_control:
-    name: Ignore volume control
-    description: Force 100% output volume regardless of AirPlay volume slider.
+      ALSA buffer size (default 2048). Must be larger than period size.
+  enabled:
+    name: Enable MQTT
+    description: >-
+      Set to "yes" to enable MQTT metadata and remote control features.
+  mqtt_host:
+    name: MQTT host
+    description: >-
+      Hostname or IP of the MQTT broker (e.g. "core-mosquitto" on Home Assistant).
+  mqtt_port:
+    name: MQTT port
+    description: >-
+      Port of the MQTT broker (default 1883).
+  mqtt_username:
+    name: MQTT username
+    description: >-
+      Username for MQTT authentication.
+  mqtt_password:
+    name: MQTT password
+    description: >-
+      Password for MQTT authentication.
+  mqtt_topic:
+    name: MQTT topic
+    description: >-
+      Base topic for this instance (default "airplay2").
+  mqtt_publish_parsed:
+    name: MQTT publish parsed metadata
+    description: >-
+      Set to "yes" to publish human-readable metadata topics (artist, album, title, etc.).
+  mqtt_publish_cover:
+    name: MQTT publish cover art
+    description: >-
+      Set to "yes" to publish album cover art over MQTT (may increase broker load).
+  mqtt_publish_retain:
+    name: MQTT publish retain
+    description: >-
+      Set to "yes" so the broker stores the last message for each topic.
+      New subscribers receive the most recent values immediately.
+  mqtt_enable_remote:
+    name: MQTT enable remote control
+    description: >-
+      Set to "yes" to allow playback control via MQTT under `<topic>/remote`.
+  session_timeout:
+    name: Session timeout
+    description: >-
+      Seconds to wait after a source disappears before ending the session
+      and becoming available again (default "60" in Shairport Sync v5).
   log_verbosity:
     name: Log verbosity
-    description: Debug log level 0–3. Increase when troubleshooting audio issues.
+    description: >-
+      Debug log level 0–3. Increase when troubleshooting; higher values are very verbose.
+  pulseaudio_server:
+    name: PulseAudio server
+    description: >-
+      Override the default PulseAudio server. Leave empty to use the system default.
+  pulseaudio_sink:
+    name: PulseAudio sink
+    description: >-
+      Override the default PulseAudio sink. Leave empty to use the system default.
+  pulseaudio_application_name:
+    name: PulseAudio application name
+    description: >-
+      Name shown in the sound mixer when using the PulseAudio backend.
