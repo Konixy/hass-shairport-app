@@ -6,7 +6,7 @@
 // General Settings
 general =
 {
-	name = "${airplay_name}"; // This means "Hostname" -- see below. This is the name the service will advertise to iTunes.
+//	name = "%H"; // This means "Hostname" -- see below. This is the name the service will advertise to iTunes.
 //		The default is "Hostname" -- i.e. the machine's hostname with the first letter capitalised (ASCII only.)
 //		You can use the following substitutions:
 //				%h for the hostname,
@@ -20,19 +20,19 @@ general =
 //			"soxr" uses the SoX library to recode a packet of frames to a new packet containing more or fewer frames. This needs a processor with fast floating point capability.
 //			"vernier" recodes a packet of frames to a new packet containing more or fewer frames. This is recommended for low powered devices.
 //			"basic" causes the simple removal or insertion of frames in a packet of frames. Not recommended.
-	interpolation = "${interpolation}"; // aka "stuffing". Default is "auto". Alternatives are "vernier", "basic" or "soxr". Choose "soxr" only if you have a reasonably fast processor and Shairport Sync has been built with "soxr" support.
-	output_backend = "${output_backend}"; // Run "shairport-sync -h" to get a list of all output_backends, e.g. "alsa", "pipe", "stdout". The default is the first one.
+//	interpolation = "auto"; // aka "stuffing". Default is "auto". Alternatives are "vernier", "basic" or "soxr". Choose "soxr" only if you have a reasonably fast processor and Shairport Sync has been built with "soxr" support.
+//	output_backend = "alsa"; // Run "shairport-sync -h" to get a list of all output_backends, e.g. "alsa", "pipe", "stdout". The default is the first one.
 //	mdns_backend = "avahi"; // Run "shairport-sync -h" to get a list of all mdns_backends. The default is the first one.
 //	interface = "name"; // Use this advanced setting to specify the interface on which Shairport Sync should provide its service. Leave it commented out to get the default, which is to select the interface(s) automatically.
 //	port = <number>; // Listen for service requests on this port. 5000 for AirPlay 1, 7000 for AirPlay 2
-//	udp_port_base = 6001; // (AirPlay 1 only) start allocating UDP ports from this port number when needed
+//	udp_port_base = 6001; // (AirPlay 1 only) start allocating UDP ports from this port number when needed 
 //	udp_port_range = 10; // (AirPlay 1 only) look for free ports in this number of places, starting at the UDP port base. Allow at least 10, though only three are needed in a steady state.
 //	airplay_device_id_offset = 0; // (AirPlay 2 only) add this to the default airplay_device_id calculated from one of the device's MAC address
 //	airplay_device_id = 0x<six-digit_hexadecimal_number>L; // (AirPlay 2 only) use this as the airplay_device_id e.g. 0xDCA632D4E8F3L -- remember the "L" at the end as it's a 64-bit quantity!
 //	regtype = "<string>"; // Use this advanced setting to set the service type and transport to be advertised by Zeroconf/Bonjour. Default is "_raop._tcp" for AirPlay 1, "_airplay._tcp" for AirPlay 2.
-	drift_tolerance_in_seconds = ${drift_tolerance_in_seconds}; // allow a timing error of this number of seconds of drift away from exact synchronisation before attempting to correct it
-	resync_threshold_in_seconds = ${resync_threshold_in_seconds}; // a synchronisation error greater than this number of seconds will cause resynchronisation; 0 disables it
-	playback_mode = "${playback_mode}"; // This can be "stereo", "mono", "reverse stereo", "both left" or "both right". Default is "stereo".
+//	drift_tolerance_in_seconds = 0.002; // allow a timing error of this number of seconds of drift away from exact synchronisation before attempting to correct it
+//	resync_threshold_in_seconds = 0.050; // a synchronisation error greater than this number of seconds will cause resynchronisation; 0 disables it
+//	playback_mode = "stereo"; // This can be "stereo", "mono", "reverse stereo", "both left" or "both right". Default is "stereo".
 //	For FFmpeg channel and layout names, (e.g. "7.1", "FL", "3.0(back)", etc.), please see channel_names and channel_layout_map at https://ffmpeg.org/doxygen/trunk/channel__layout_8c_source.html
 //	eight_channel_mode = "on"; // Enable reception of eight channel audio. Can be "off", "on" or an eight-channel FFmpeg channel layout. If "on", the channel layout used is: "7.1".
 //	six_channel_mode = "on"; // Enable reception of six channel audio. Can be "off", "on" or a six-channel FFmpeg channel layout. If "on", the channel layout used is: "5.1".
@@ -44,17 +44,17 @@ general =
 //	  If a list of audio channels is given, e.g. ( "FL", "FR", "LFE", "FC", "BL", "BR", "SL", "SR" ), they are  mapped in the order given to the device channels from 1 upwards.
 //	  The audio channel list can include the same channel more than once and can include the silent channel "--".
 
-//	alac_decoder = "apple"; //This advanced setting is for Classic Airplay only. It can be "ffmpeg" (default on systems with FFmpeg support), "hammerton" (default on systems without FFmpeg support, deprecated) or "apple" (deprecated).
+//	alac_decoder = <setting>; //This advanced setting is for Classic Airplay only. It can be "ffmpeg" (default on systems with FFmpeg support), "hammerton" (default on systems without FFmpeg support, deprecated) or "apple" (deprecated).
 //		The original Shairport decoder is by David Hammerton.  This is deprecated for security reasons as it is no longer maintained. However, it is compact and may be useful in storage-constrained devices. It is included by default on systems without FFmpeg support.
 //		If you build Shairport Sync with the flag --with-apple-alac, the Apple ALAC decoder will be chosen by default unless FFmpeg support is included. The Apple ALAC decoder is deprecated for security reasons.
-//		If you build Shairport Sync with the flag --with-ffmpeg, the FFmpeg ALAC decoder will be chosen by default. This is recommended except where there is insufficient storage on the device. With this setting, the Hammerton decoder will not be built.
+//		If you build Shairport Sync with the flag --with-ffmpeg, the FFmpeg ALAC decoder will be chosen by default. This is recommended except where there is insufficient storage on the device. With this setting, the Hammerton decoder will not be built. 
 //		In AirPlay 2 operation, the FFmpeg ALAC decoder is always used.
-	ignore_volume_control = "${ignore_volume_control}"; // set this to "yes" if you want the volume to be at 100% no matter what the source's volume control is set to.
+//	ignore_volume_control = "no"; // set this to "yes" if you want the volume to be at 100% no matter what the source's volume control is set to.
 //	volume_range_db = 60 ; // use this advanced setting to set the range, in dB, you want between the maximum volume and the minimum volume. Range is 30 to 150 dB. Leave it commented out to use mixer's native range.
-	volume_max_db = ${volume_max_db} ; // use this advanced setting, which must have a decimal point in it, to set the maximum volume, in dB, you wish to use.
+//	volume_max_db = 0.0 ; // use this advanced setting, which must have a decimal point in it, to set the maximum volume, in dB, you wish to use.
 //		The setting is for the hardware mixer, if chosen, or the software mixer otherwise. The value must be in the mixer's range (0.0 to -96.2 for the software mixer).
 //		Leave it commented out to use mixer's maximum volume.
-	volume_control_profile = "${volume_control_profile}" ; // use this advanced setting to specify how the airplay volume is transferred to the mixer volume.
+//	volume_control_profile = "standard" ; // use this advanced setting to specify how the airplay volume is transferred to the mixer volume.
 //		"standard" makes the volume change more quickly at lower volumes and slower at higher volumes.
 //		"flat" makes the volume change at the same rate at all volumes.
 //		"dasl_tapered" is similar to "standard" - it makes the volume change more quickly at lower volumes and slower at higher volumes.
@@ -63,16 +63,16 @@ general =
 //			With the range of AirPlay volume being from -30 to 0, doubling the volume from -22.5 to -15 results in an increase of 10 dB.
 //			Similarly, doubling the volume from -15 to 0 results in an increase of 10 dB.
 //			For compatibility with mixers having a restricted attenuation range (e.g. 30 dB), "dasl_tapered" will switch to a flat profile at low AirPlay volumes.
-	volume_control_combined_hardware_priority = "${volume_control_combined_hardware_priority}"; // when extending the volume range by combining the built-in software attenuator with the hardware mixer attenuator, set this to "yes" to reduce volume by using the hardware mixer first, then the built-in software attenuator.
-	default_airplay_volume = ${default_airplay_volume}; // this is the suggested volume after a reset or after the high_volume_threshold has been exceed and the high_volume_idle_timeout_in_minutes has passed
+//	volume_control_combined_hardware_priority = "no"; // when extending the volume range by combining the built-in software attenuator with the hardware mixer attenuator, set this to "yes" to reduce volume by using the hardware mixer first, then the built-in software attenuator.
+//	default_airplay_volume = -24.0; // this is the suggested volume after a reset or after the high_volume_threshold has been exceed and the high_volume_idle_timeout_in_minutes has passed
 //	run_this_when_volume_is_set = "/full/path/to/application/and/args"; //	Run the specified application whenever the volume control is set or changed.
 //		The desired AirPlay volume is appended to the end of the command line – leave a space if you want it treated as an extra argument.
 //		AirPlay volume goes from 0.0 to -30.0 and -144.0 means "mute".
-	audio_backend_latency_offset_in_seconds = ${offset}; // This is added to the latency requested by the player to delay or advance the output by a fixed amount.
+//	audio_backend_latency_offset_in_seconds = 0.0; // This is added to the latency requested by the player to delay or advance the output by a fixed amount.
 //		Use it, for example, to compensate for a fixed delay in the audio back end.
 //		E.g. if the output device, e.g. a soundbar, takes 100 ms to process audio, set this to -0.1 to deliver the audio
 //		to the output device 100 ms early, allowing it time to process the audio and output it perfectly in sync.
-	audio_backend_buffer_desired_length_in_seconds = ${audio_backend_buffer_desired_length_in_seconds}; // This is the desired size of the buffer to be maintained in the external output system, e.g. the DAC in ALSA. If set too small, buffer underflow occurs on low-powered machines.
+//	audio_backend_buffer_desired_length_in_seconds = 0.2; // This is the desired size of the buffer to be maintained in the external output system, e.g. the DAC in ALSA. If set too small, buffer underflow occurs on low-powered machines.
 //		Too long and the response time to volume changes becomes annoying.
 //	audio_decoded_buffer_desired_length_in_seconds = 1.0; // Advanced feature. This is the desired size of the buffer of fully deciphered and decoded audio maintained within Shairport Sync prior to sending it to the external output system , e.g. the DAC in ALSA.
 //		Valid for AirPlay 2 Buffered Audio streams only.
@@ -108,7 +108,7 @@ sessioncontrol =
 //	wait_for_completion = "no"; // set to "yes" to get Shairport Sync to wait until the "run_this..." applications have terminated before continuing
 
 //	allow_session_interruption = "no"; // set to "yes" to allow another device to interrupt Shairport Sync while it's playing from an existing audio source
-	session_timeout = ${session_timeout}; // wait for this number of seconds after a source disappears before terminating the session and becoming available again.
+//	session_timeout = 60; // wait for this number of seconds after a source disappears before terminating the session and becoming available again.
 };
 
 // Back End Settings
@@ -159,26 +159,26 @@ sessioncontrol =
 // --with-alsa
 alsa =
 {
-	output_device = "${output_device}"; // the name of the alsa output device. Use "shairport-sync -h" to discover the names of ALSA hardware devices. Use "alsamixer" or "aplay" to find out the names of devices, mixers, etc.
-	mixer_control_name = "${mixer_control_name}"; // the name of the mixer to use to adjust output volume. No default. If not specified, no mixer is used and volume in adjusted in software.
-	mixer_control_index = ${mixer_control_index}; // the index of the mixer to use to adjust output volume. Default is 0. The mixer is fully identified by the combination of the mixer_control_name and the mixer_control_index, e.g. "PCM",0 would be such a specification.
+//	output_device = "default"; // the name of the alsa output device. Use "shairport-sync -h" to discover the names of ALSA hardware devices. Use "alsamixer" or "aplay" to find out the names of devices, mixers, etc.
+//	mixer_control_name = "PCM"; // the name of the mixer to use to adjust output volume. No default. If not specified, no mixer is used and volume in adjusted in software.
+//	mixer_control_index = 0; // the index of the mixer to use to adjust output volume. Default is 0. The mixer is fully identified by the combination of the mixer_control_name and the mixer_control_index, e.g. "PCM",0 would be such a specification.
 //	mixer_device = "default"; // the mixer_device default is whatever the output_device is. Normally you wouldn't have to use this.
 
 //	Note: if you specify settings here, the output device must be capable of them. Otherwise, Shairport Sync will quit and leave a message in the system log.
-	output_rate = "${output_rate}"; // Specify "auto", or a single rate, e.g. 48000, or a bracketed comma-separated list of rates, e.g. (44100, 48000, 64000). Default is "auto" -- try to match the input. See the "Rates, Formats and Channels" discussion above.
-	output_format = "${output_format}"; // Specify "auto", or a single format, e.g. "S32_LE", or a bracketed comma-separated list of formats, e.g. ("S32_LE", "S16_LE"). Default is "auto". See the "Rates, Formats and Channels" discussion above.
-	output_channels = "${output_channels}"; // Specify "auto", or a specific number of channels, e.g. 2, or a bracketed comma-separated list of numbers of channels, e.g. (2, 6). Default is "auto" -- try to match the input. See the "Rates, Formats and Channels" discussion above.
+//	output_rate = "auto"; // Specify "auto", or a single rate, e.g. 48000, or a bracketed comma-separated list of rates, e.g. (44100, 48000, 64000). Default is "auto" -- try to match the input. See the "Rates, Formats and Channels" discussion above.
+//	output_format = "auto"; // Specify "auto", or a single format, e.g. "S32_LE", or a bracketed comma-separated list of formats, e.g. ("S32_LE", "S16_LE"). Default is "auto". See the "Rates, Formats and Channels" discussion above.
+//	output_channels = "auto"; // Specify "auto", or a specific number of channels, e.g. 2, or a bracketed comma-separated list of numbers of channels, e.g. (2, 6). Default is "auto" -- try to match the input. See the "Rates, Formats and Channels" discussion above.
 
 //	disable_synchronization = "no"; // Set to "yes" to disable synchronization.
 
-	period_size = ${period_size}; // Use this optional advanced setting to set the alsa period size near to this value
-	buffer_size = ${buffer_size}; // Use this optional advanced setting to set the alsa buffer size near to this value
+//	period_size = <number>; // Use this optional advanced setting to set the alsa period size near to this value
+//	buffer_size = <number>; // Use this optional advanced setting to set the alsa buffer size near to this value
 //	use_mmap_if_available = "no"; // Use this optional advanced setting to control whether MMAP-based output is used to communicate  with the DAC. Default is "no".
 //	use_hardware_mute_if_available = "no"; // Use this optional advanced setting to control whether the hardware in the DAC is used for muting. Default is "no", for compatibility with other audio players.
 //	maximum_stall_time = 0.200; // Use this optional advanced setting to control how long to wait for data to be consumed by the output device before considering it an error. It should never approach 200 ms.
-	use_precision_timing = "${use_precision_timing}"; // Use this optional advanced setting to control how Shairport Sync gathers timing information. When set to "auto", if the output device is a real hardware device, precision timing will be used. Choose "no" for more compatible standard timing, choose "yes" to force the use of precision timing, which may cause problems.
+//	use_precision_timing = "auto"; // Use this optional advanced setting to control how Shairport Sync gathers timing information. When set to "auto", if the output device is a real hardware device, precision timing will be used. Choose "no" for more compatible standard timing, choose "yes" to force the use of precision timing, which may cause problems.
 
-	disable_standby_mode = "${disable_standby_mode}"; // This setting prevents the DAC from entering the standby mode. Some DACs make small "popping" noises when they go in and out of standby mode. Settings can be: "always", "auto" or "never". Default is "never", but only for backwards compatibility. The "auto" setting prevents entry to standby mode while Shairport Sync is in the "active" mode. You can use "yes" instead of "always" and "no" instead of "never".
+//	disable_standby_mode = "never"; // This setting prevents the DAC from entering the standby mode. Some DACs make small "popping" noises when they go in and out of standby mode. Settings can be: "always", "auto" or "never". Default is "never", but only for backwards compatibility. The "auto" setting prevents entry to standby mode while Shairport Sync is in the "active" mode. You can use "yes" instead of "always" and "no" instead of "never".
 //	disable_standby_mode_silence_threshold = 0.040; // Use this optional advanced setting to control how little audio should remain in the output buffer before the disable_standby code should start sending silence to the output device.
 //	disable_standby_mode_silence_scan_interval = 0.030; // Use this optional advanced setting to control how often the amount of audio remaining in the output buffer should be checked.
 //	disable_standby_mode_default_channels = 2; // Use this optional advanced setting to set the initial channel setting when disable_standby_mode is "always" or "yes". After a track has been played, the track's output channel setting will be used.
@@ -220,15 +220,15 @@ sndio =
 // --with-pulseaudio
 pulseaudio =
 {
-	server = "${pulseaudio_server}"; // Set this to override the default pulseaudio server that should be used.
-	sink = "${pulseaudio_sink}"; // Set this to override the default pulseaudio sink that should be used. (Untested)
-	application_name = "${pulseaudio_application_name}"; //Set this to the name that should appear in the Sounds "Applications" tab when Shairport Sync is active.
+//	server = "host"; // Set this to override the default pulseaudio server that should be used.
+//	sink = "Sink Name"; // Set this to override the default pulseaudio sink that should be used. (Untested)
+//	application_name = "Shairport Sync"; //Set this to the name that should appear in the Sounds "Applications" tab when Shairport Sync is active.
 
 //	Note: if you specify settings here, the PulseAudio system must be capable of giving effect to them. Otherwise, Shairport Sync will quit and leave a message in the system log.
 //	output_rate = "auto"; // Specify "auto", or a single rate, e.g. 48000, or a bracketed comma-separated list of rates, e.g. (44100, 48000, 64000). Default is "auto" -- try to match the input. See the "Rates, Formats and Channels" discussion above.
 //	output_format = "auto"; // Specify "auto", or a single format, e.g. "S32_LE", or a bracketed comma-separated list of formats, e.g. ("S32_LE", "S16_LE"). Default is "auto". See the "Rates, Formats and Channels" discussion above.
 //	output_channels = "auto"; // Specify "auto", or a specific number of channels, e.g. 2, or a bracketed comma-separated list of numbers of channels, e.g. (2, 6). Default is "auto" -- try to match the input. See the "Rates, Formats and Channels" discussion above.
-//	default_channel_layouts = "alsa"; // Set to "alsa" (default) for the alsa-compatible channel layouts (see "PA_CHANNEL_MAP_ALSA"), or set to "pulseaudio" if you want PulseAudio's own channel layouts ("PA_CHANNEL_MAP_DEFAULT") to be used instead.
+//	default_channel_layouts = "alsa"; // Set to "alsa" (default) for the alsa-compatible channel layouts (see "PA_CHANNEL_MAP_ALSA"), or set to "pulseaudio" if you want PulseAudio's own channel layouts ("PA_CHANNEL_MAP_DEFAULT") to be used instead. 
 };
 
 // Parameters for the JACK Audio Connection Kit backend.
@@ -323,7 +323,7 @@ dsp =
 // In those cases, "enabled" and "include_cover_art" will both be "yes" by default
 metadata =
 {
-//	enabled = "no"; // set this to yes to get Shairport Sync to solicit metadata from the source and to pass it on via a pipe
+//	enabled = "yes"; // set this to yes to get Shairport Sync to solicit metadata from the source and to pass it on via a pipe
 //	include_cover_art = "yes"; // set to "yes" to get Shairport Sync to solicit cover art from the source and pass it via the pipe. You must also set "enabled" to "yes".
 //	cover_art_cache_directory = "/tmp/shairport-sync/.cache/coverart"; // artwork will be  stored in this directory if the dbus or MPRIS interfaces are enabled or if the MQTT client is in use. Set it to "" to prevent caching, which may be useful on some systems
 //	pipe_name = "/tmp/shairport-sync-metadata";
@@ -347,27 +347,27 @@ metadata =
 
 mqtt =
 {
-	enabled = "${enabled}"; // set this to yes to enable the mqtt-metadata-service
-	hostname = "${mqtt_host}"; // Hostname of the MQTT Broker
-	port = ${mqtt_port}; // Port on the MQTT Broker to connect to
-	username = "${mqtt_username}"; //set this to a string to your username in order to enable username authentication
-	password = "${mqtt_password}"; //set this to a string you your password in order to enable username & password authentication
+//	enabled = "no"; // set this to yes to enable the mqtt-metadata-service
+//	hostname = "iot.eclipse.org"; // Hostname of the MQTT Broker
+//	port = 1883; // Port on the MQTT Broker to connect to
+//	username = NULL; //set this to a string to your username in order to enable username authentication
+//	password = NULL; //set this to a string you your password in order to enable username & password authentication
 //	capath = NULL; //set this to the folder with the CA-Certificates to be accepted for the server certificate. If not set, TLS is not used
 //	cafile = NULL; //this may be used as an (exclusive) alternative to capath with a single file for all ca-certificates
 //	certfile = NULL; //set this to a string to a user certificate to enable MQTT Client certificates. keyfile must also be set!
 //	keyfile = NULL; //private key for MQTT Client authentication
-	topic = "${mqtt_topic}"; //MQTT topic where this instance of shairport-sync should publish. If not set, the general.name value is used.
+//	topic = NULL; //MQTT topic where this instance of shairport-sync should publish. If not set, the general.name value is used.
 //	publish_raw = "no"; //whether to publish all available metadata under the codes given in the 'metadata' docs.
-	publish_parsed = "${mqtt_publish_parsed}"; //whether to publish a small (but useful) subset of metadata under human-understandable topics
+//	publish_parsed = "no"; //whether to publish a small (but useful) subset of metadata under human-understandable topics
 //	empty_payload_substitute = "--"; // MQTT messages with empty payloads often are invisible or have special significance to MQTT brokers and readers.
 //    To avoid empty payload problems, this string is used instead of any empty payload. Set it to the empty string -- "" -- to leave the payload empty.
 //	Currently published topics:artist,album,title,genre,format,songalbum,volume,client_ip,
 //	Additionally, messages at the topics play_start,play_end,play_flush,play_resume are published
-	publish_cover = "${mqtt_publish_cover}"; //whether to publish the cover over mqtt in binary form. This may lead to a bit of load on the broker
-	publish_retain = "${mqtt_publish_retain}"; //whether to set the retain flag on published MQTT messages. When enabled, the broker stores the last message for each topic.
+//	publish_cover = "no"; //whether to publish the cover over mqtt in binary form. This may lead to a bit of load on the broker
+//	publish_retain = "no"; //whether to set the retain flag on published MQTT messages. When enabled, the broker stores the last message for each topic.
 //	enable_autodiscovery = "no"; //whether to publish an autodiscovery message to automatically appear in Home Assistant
 //	autodiscovery_prefix = "homeassistant"; //string to prepend to autodiscovery topic
-	enable_remote = "${mqtt_enable_remote}"; //whether to remote control via MQTT. RC is available under `topic`/remote.
+//	enable_remote = "no"; //whether to remote control via MQTT. RC is available under `topic`/remote.
 //	Available commands are "command", "beginff", "beginrew", "mutetoggle", "nextitem", "previtem", "pause", "playpause", "play", "stop", "playresume", "shuffle_songs", "volumedown", "volumeup"
 };
 
@@ -377,7 +377,7 @@ diagnostics =
 //	disable_resend_requests = "no"; // set this to yes to stop Shairport Sync from requesting the retransmission of missing packets. Default is "no".
 //	log_output_to = "syslog"; // set this to "syslog" (default), "stderr" or "stdout" or a file or pipe path to specify were all logs, statistics and diagnostic messages are written to. If there's anything wrong with the file spec, output will be to "stderr".
 //	statistics = "no"; // set to "yes" to print statistics in the log
-	log_verbosity = ${log_verbosity}; // "0" means no debug verbosity, "3" is most verbose.
+//	log_verbosity = 0; // "0" means no debug verbosity, "3" is most verbose.
 //	log_show_file_and_line = "yes"; // set this to yes if you want the file and line number of the message source in the log file
 //	log_show_time_since_startup = "no"; // set this to yes if you want the time since startup in the debug message -- seconds down to nanoseconds
 //	log_show_time_since_last_message = "yes"; // set this to yes if you want the time since the last debug message in the debug message -- seconds down to nanoseconds

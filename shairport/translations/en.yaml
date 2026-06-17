@@ -3,6 +3,7 @@ configuration:
     name: AirPlay name
     description: >-
       Name shown in the AirPlay device list on Apple devices (max 50 characters).
+      Default "%H" uses the host name; set a custom name to override.
   interpolation:
     name: Interpolation
     description: >-
@@ -94,16 +95,18 @@ configuration:
   audio_backend_buffer_desired_length_in_seconds:
     name: Backend buffer length
     description: >-
-      Audio backend buffer in seconds (default "0.15"). Lower values reduce
-      latency; too low causes dropouts on slow hardware.
+      Audio backend buffer in seconds (default "0.2", matching upstream).
+      Lower values reduce latency; too low causes dropouts on slow hardware.
   period_size:
     name: ALSA period size
     description: >-
-      ALSA period size (default 256). Smaller values reduce latency but increase CPU load.
+      ALSA period size. Default 0 leaves the upstream setting commented out.
+      Smaller values reduce latency but increase CPU load.
   buffer_size:
     name: ALSA buffer size
     description: >-
-      ALSA buffer size (default 2048). Must be larger than period size.
+      ALSA buffer size. Default 0 leaves the upstream setting commented out.
+      Must be larger than period size when both are set.
   enabled:
     name: Enable MQTT
     description: >-
