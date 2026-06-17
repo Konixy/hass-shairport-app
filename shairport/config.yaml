@@ -13,7 +13,7 @@ host_network: true
 audio: true
 realtime: true
 options:
-  airplay_name: "%H"
+  airplay_name: "Home Assistant"
   interpolation: "auto"
   output_backend: "alsa"
   offset: "0.0"
@@ -39,8 +39,8 @@ options:
   mqtt_port: 1883
   mqtt_username: ""
   mqtt_password: ""
-  mqtt_topic: ""
-  mqtt_publish_parsed: "no"
+  mqtt_topic: "shairport"
+  mqtt_publish_parsed: "yes"
   mqtt_publish_cover: "no"
   mqtt_publish_retain: "no"
   mqtt_enable_remote: "no"
