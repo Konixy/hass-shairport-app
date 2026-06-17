@@ -11,6 +11,7 @@ arch:
 boot: "auto"
 host_network: true
 audio: true
+realtime: true
 options:
   airplay_name: "%H"
   interpolation: "auto"

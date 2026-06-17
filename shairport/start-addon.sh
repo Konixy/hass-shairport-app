@@ -181,4 +181,4 @@ if [ -f /etc/s6-overlay/s6-rc.d/user/contents.d/syslogd-bundle ]; then
     echo "Syslogd-bundle reference removed from user contents."
 fi
 
-exec ./run.sh
+exec /run-addon.sh
