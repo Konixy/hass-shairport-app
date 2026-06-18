@@ -358,7 +358,7 @@ mqtt =
 //	keyfile = NULL; //private key for MQTT Client authentication
 //	topic = NULL; //MQTT topic where this instance of shairport-sync should publish. If not set, the general.name value is used.
 //	publish_raw = "no"; //whether to publish all available metadata under the codes given in the 'metadata' docs.
-//	publish_parsed = "no"; //whether to publish a small (but useful) subset of metadata under human-understandable topics
+//	publish_parsed = "yes"; //whether to publish a small (but useful) subset of metadata under human-understandable topics
 //	empty_payload_substitute = "--"; // MQTT messages with empty payloads often are invisible or have special significance to MQTT brokers and readers.
 //    To avoid empty payload problems, this string is used instead of any empty payload. Set it to the empty string -- "" -- to leave the payload empty.
 //	Currently published topics:artist,album,title,genre,format,songalbum,volume,client_ip,
