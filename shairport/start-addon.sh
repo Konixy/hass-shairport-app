@@ -53,7 +53,7 @@ apply_if_changed() {
         [ "$value" = "0" ] && return 0
     fi
 
-    if [ "$key" = "name" ] && [ "$value" = "%H" ]; then
+    if [ "$key" = "name" ] && [ "$value" = "Home Assistant" ]; then
         return 0
     fi
 
@@ -102,7 +102,7 @@ export mqtt_port="${mqtt_port:-1883}"
 export mqtt_username="${mqtt_username:-}"
 export mqtt_password="${mqtt_password:-}"
 export mqtt_topic="${mqtt_topic:-shairport}"
-export mqtt_publish_parsed="${mqtt_publish_parsed:-yes}"
+export mqtt_publish_parsed="${mqtt_publish_parsed:-no}"
 export mqtt_publish_cover="${mqtt_publish_cover:-no}"
 export mqtt_publish_retain="${mqtt_publish_retain:-no}"
 export mqtt_enable_remote="${mqtt_enable_remote:-no}"
@@ -159,7 +159,7 @@ if [ "$enabled" = "yes" ]; then
     [ -n "$mqtt_username" ] && set_config_value mqtt username "$mqtt_username" string
     [ -n "$mqtt_password" ] && set_config_value mqtt password "$mqtt_password" string
     [ -n "$mqtt_topic" ] && set_config_value mqtt topic "$mqtt_topic" string
-    apply_if_changed mqtt_publish_parsed mqtt publish_parsed string "yes"
+    apply_if_changed mqtt_publish_parsed mqtt publish_parsed string "no"
     apply_if_changed mqtt_publish_cover mqtt publish_cover string "no"
     apply_if_changed mqtt_publish_retain mqtt publish_retain string "no"
     apply_if_changed mqtt_enable_remote mqtt enable_remote string "no"
