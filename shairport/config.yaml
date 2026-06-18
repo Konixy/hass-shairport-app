@@ -1,7 +1,7 @@
 name: "Shairport Sync for Home Assistant"
 description: "Adds Airplay 2 capabilities to Home Assistant"
 url: https://github.com/Konixy/hass-shairport-app/tree/main/shairport
-version: "1.0.9"
+version: "1.0.10"
 slug: "shairport"
 init: false
 arch:
