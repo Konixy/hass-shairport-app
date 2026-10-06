@@ -1,4 +1,4 @@
-FROM mikebrady/shairport-sync:5.0.4
+FROM mikebrady/shairport-sync:rolling
 
 RUN apk add --no-cache jq alsa-plugins-pulse
 
