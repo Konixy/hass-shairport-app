@@ -1,21 +1,107 @@
-name: Release Build
+name: Publish
 
 on:
-  release:
-    types: [published]
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: publish-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
 
 env:
   ARCHITECTURES: '["amd64", "aarch64"]'
   IMAGE_NAME: ha-shairport
   BASE_IMAGE_VERSION: "3.20"
-  RELEASE_TAG: ${{ github.event.release.tag_name }}
 
 permissions:
   contents: read
+  packages: read
 
 jobs:
+  version:
+    name: Resolve add-on version
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      publish: ${{ steps.published.outputs.publish }}
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Read version from shairport/config.yaml
+        id: version
+        run: |
+          set -euo pipefail
+          version="$(awk '
+            /^version:/ {
+              value = $2
+              gsub(/^["'\'']|["'\'']$/, "", value)
+              print value
+              exit
+            }
+          ' shairport/config.yaml)"
+          if [ -z "$version" ]; then
+            echo "version is missing from shairport/config.yaml" >&2
+            exit 1
+          fi
+          if ! printf '%s' "$version" | grep -Eq '^[A-Za-z0-9_][A-Za-z0-9_.-]{0,127}$'; then
+            echo "Refusing to publish invalid version tag: ${version}" >&2
+            exit 1
+          fi
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
+          echo "Add-on version is ${version}" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Check whether this version is already published
+        id: published
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+          GH_ACTOR: ${{ github.actor }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          owner="$(printf '%s' "$GITHUB_REPOSITORY_OWNER" | tr '[:upper:]' '[:lower:]')"
+          images=()
+          while IFS= read -r arch; do
+            images+=("${owner}/${arch}-${IMAGE_NAME}")
+          done < <(printf '%s' "$ARCHITECTURES" | jq -r '.[]')
+          images+=("${owner}/${IMAGE_NAME}")
+
+          missing=0
+          for image in "${images[@]}"; do
+            registry_token="$(curl -fsS -u "${GH_ACTOR}:${GH_TOKEN}" \
+              "https://ghcr.io/token?service=ghcr.io&scope=repository:${image}:pull" \
+              | jq -r '.token // empty')"
+            if [ -z "$registry_token" ]; then
+              echo "Failed to get a GHCR token for ${image}" >&2
+              exit 1
+            fi
+            status="$(curl -sS -o /dev/null -w "%{http_code}" \
+              -H "Authorization: Bearer ${registry_token}" \
+              -H "Accept: application/vnd.oci.image.index.v1+json, application/vnd.docker.distribution.manifest.list.v2+json, application/vnd.docker.distribution.manifest.v2+json, application/vnd.oci.image.manifest.v1+json" \
+              "https://ghcr.io/v2/${image}/manifests/${VERSION}")"
+            echo "${image}:${VERSION} -> HTTP ${status}"
+            case "$status" in
+              200) ;;
+              404) missing=1 ;;
+              *)
+                echo "Unexpected registry response ${status} for ${image}:${VERSION}" >&2
+                exit 1
+                ;;
+            esac
+          done
+
+          if [ "$missing" -eq 0 ]; then
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+            echo "Version \`${VERSION}\` is already published. Skipping the image build." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+            echo "Version \`${VERSION}\` is not published. Building and publishing." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
   init:
     name: Initialize build
+    needs: version
+    if: needs.version.outputs.publish == 'true'
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.lowercase_matrix.outputs.matrix }}
@@ -23,7 +109,6 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          ref: ${{ github.event.release.tag_name }}
           submodules: 'true'
           fetch-depth: 0
 
@@ -47,7 +132,8 @@ jobs:
 
   build:
     name: Build ${{ matrix.arch }} image
-    needs: init
+    needs: [version, init]
+    if: needs.version.outputs.publish == 'true' && needs.init.result == 'success'
     runs-on: ${{ matrix.os }}
     permissions:
       contents: read # To check out the code
@@ -55,11 +141,10 @@ jobs:
       packages: write # To push built images to GitHub Container Registry
     strategy:
       fail-fast: false
-      matrix: ${{ fromJSON(needs.init.outputs.matrix) }}
+      matrix: ${{ fromJSON(needs.init.outputs.matrix || '{"include":[]}') }}
     steps:
       - uses: actions/checkout@v6
         with:
-          ref: ${{ github.event.release.tag_name }}
           submodules: 'true'
           fetch-depth: 0
 
@@ -72,16 +157,16 @@ jobs:
           container-registry-password: ${{ secrets.GITHUB_TOKEN }}
           image: ${{ matrix.image }}
           image-tags: |
-            ${{ env.RELEASE_TAG }}
+            ${{ needs.version.outputs.version }}
             latest
           build-args: |
             BUILD_FROM=ghcr.io/home-assistant/${{ matrix.arch }}-base:${{ env.BASE_IMAGE_VERSION }}
           push: "true"
-          version: ${{ env.RELEASE_TAG }}
+          version: ${{ needs.version.outputs.version }}
 
   manifest:
     name: Publish multi-arch manifest
-    needs: [init, build]
+    needs: [version, init, build]
     if: ${{ !cancelled() && needs.build.result == 'success' }}
     runs-on: ubuntu-latest
     permissions:
@@ -97,5 +182,5 @@ jobs:
           container-registry-username: ${{ github.repository_owner }}
           image-name: ${{ env.IMAGE_NAME }}
           image-tags: |
-            ${{ env.RELEASE_TAG }}
+            ${{ needs.version.outputs.version }}
             latest
