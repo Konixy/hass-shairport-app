@@ -1,6 +1,6 @@
-# Shairport Sync Home Assistant Add-ons
+# Shairport Sync Home Assistant App
 
-Home Assistant add-ons for AirPlay audio streaming.
+Home Assistant app for AirPlay audio streaming.
 
 ## Add-ons
 
