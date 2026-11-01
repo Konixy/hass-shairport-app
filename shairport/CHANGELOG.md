@@ -1,3 +1,7 @@
+# 1.1.1
+
+- Fixed app icon
+
 # 1.1.0
 
 - Updated app icon
