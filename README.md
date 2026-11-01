@@ -1,6 +1,6 @@
 <p align="center">
     <img src="shairport/icon.svg" alt="Shairport-Sync for Home Assistant" width="64" height="64">
-    <h1 align="center">Shairport Sync Home Assistant App</h1>
+    <h3 align="center">Shairport Sync Home Assistant App</h3>
     <p align="center">
         Home Assistant app for AirPlay audio streaming.
     </p>
