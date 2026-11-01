@@ -20,7 +20,7 @@ permissions:
 
 jobs:
   version:
-    name: Resolve add-on version
+    name: Resolve app version
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.version.outputs.version }}
@@ -49,7 +49,7 @@ jobs:
             exit 1
           fi
           echo "version=${version}" >> "$GITHUB_OUTPUT"
-          echo "Add-on version is ${version}" >> "$GITHUB_STEP_SUMMARY"
+          echo "App version is ${version}" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Check whether this version is already published
         id: published
@@ -109,7 +109,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          submodules: 'true'
+          submodules: "true"
           fetch-depth: 0
 
       - name: Set lowercase registry prefix
@@ -145,7 +145,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          submodules: 'true'
+          submodules: "true"
           fetch-depth: 0
 
       - name: Build image

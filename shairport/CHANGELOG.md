@@ -1,3 +1,10 @@
+# 1.1.0
+
+- Updated app icon
+- Improved CI/CD
+- Updated README
+- Updated version of shairport-sync
+
 # 1.0.0
 
 - Initial release of the Shairport Sync add-on (renamed and reworked from Airplay2)

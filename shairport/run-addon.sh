@@ -26,7 +26,7 @@ done
 export XDG_RUNTIME_DIR=/tmp
 
 # Upstream docker run.sh targets standalone Docker (unix:/tmp/pulseaudio.socket).
-# Home Assistant add-ons with audio: true mount PulseAudio at /run/audio instead.
+# Home Assistant apps with audio: true mount PulseAudio at /run/audio instead.
 if [ -S /run/audio/pulse.sock ]; then
     unset PULSE_SERVER
     unset PULSE_COOKIE
