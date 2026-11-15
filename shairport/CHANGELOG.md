@@ -1,3 +1,9 @@
+# 1.1.2
+
+- Added renovate workflow
+- Pinned shairport-sync version
+- Updated dependencies
+
 # 1.1.1
 
 - Fixed app icon
