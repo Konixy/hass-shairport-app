@@ -26,7 +26,7 @@ jobs:
       version: ${{ steps.version.outputs.version }}
       publish: ${{ steps.published.outputs.publish }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Read version from shairport/config.yaml
         id: version
@@ -107,7 +107,7 @@ jobs:
       matrix: ${{ steps.lowercase_matrix.outputs.matrix }}
       registry_prefix: ${{ steps.registry.outputs.prefix }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           submodules: "true"
           fetch-depth: 0
@@ -143,7 +143,7 @@ jobs:
       fail-fast: false
       matrix: ${{ fromJSON(needs.init.outputs.matrix || '{"include":[]}') }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           submodules: "true"
           fetch-depth: 0
