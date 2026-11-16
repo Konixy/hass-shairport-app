@@ -12,7 +12,7 @@
 
 ## Installation
 
-Add this repository URL in the Home Assistant app store (**Settings → Apps → Install app → ⋮ → Repositories**):
+**Click [here](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2FKonixy%2Fhass-shairport-app)**, or add this repository URL in the Home Assistant app store (**Settings → Apps → Install app → ⋮ → Repositories**):
 
 `https://github.com/Konixy/hass-shairport-app`
 
